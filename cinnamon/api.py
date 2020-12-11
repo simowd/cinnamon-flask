@@ -14,6 +14,10 @@ parser.add_argument('password')
 
 class Auth(Resource):
     def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('username')
+        parser.add_argument('password')
+
         args = parser.parse_args()
         user = user_datastore.get_user(args['username'])
         if user != None:
@@ -49,8 +53,17 @@ class ProductList(Resource):
         print(getProducts())
         return getProducts()
 
+class AddProduct(Resource):
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('Chocolate')
+        parser.add_argument('10')
+        args = parser.parse_args()
+        addProduct(args['Chocolate'],args['10'])
+
 
 api.add_resource(HelloWorld, '/')
 api.add_resource(Auth,'/log-in')
 api.add_resource(SellinList,'/sellings')
 api.add_resource(ProductList, '/list-product')
+api.add_resource(AddProduct, '/add-product')
