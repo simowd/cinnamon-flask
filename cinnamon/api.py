@@ -2,6 +2,7 @@ from flask_restful import Resource, Api, reqparse
 from .models import db, User, Role
 from flask_security import login_required, current_user, login_user, auth_token_required,SQLAlchemyUserDatastore, Security, utils
 from flask import jsonify
+from .bl import *
 
 api = Api()
 
@@ -38,5 +39,18 @@ class HelloWorld(Resource):
         print(current_user)
         return {'hello': 'world'}
 
+class SellinList(Resource):
+    def get(self):
+        print(getSellings())
+        return getSellings()
+
+class ProductList(Resource):
+    def get(self):
+        print(getProducts())
+        return getProducts()
+
+
 api.add_resource(HelloWorld, '/')
 api.add_resource(Auth,'/log-in')
+api.add_resource(SellinList,'/sellings')
+api.add_resource(ProductList, '/list-product')
