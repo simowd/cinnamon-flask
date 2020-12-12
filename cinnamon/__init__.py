@@ -18,6 +18,7 @@ def create_app(test_config=None):
     app.config['SECURITY_PASSWORD_SALT'] = 'huachimingosal100'
     app.config['DEBUG'] = True
     app.config['SESSION_COOKIE_SECURE'] = True
+    app.config['SECURITY_FLASH_MESSAGES'] = False
     
     
 

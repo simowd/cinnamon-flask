@@ -24,7 +24,7 @@ class Auth(Resource):
             if utils.verify_password(args['password'], user.password):
                 login_user(user)
                 token = user.get_auth_token()
-                return {'Authorization-Token' : token}
+                return {'Authorization-Token' : token , 'id_user': user.id}
             else:
                 return {'message':'Contraseña incorrecta'}, 401
         else:
@@ -34,13 +34,17 @@ class Auth(Resource):
         utils.logout_user();
         return {'message': 'Log-out exitoso'}, 200
 
+
 class HelloWorld(Resource):
     def get(self):
-        print(current_user)
-        if not current_user.is_authenticated:
-            return {'message':'Error en la autorización'}, 403
-        users = User.query.all()
-        print(current_user)
+        parser = reqparse.RequestParser()
+        parser.add_argument('Authentication-Token')
+        parser.add_argument('id_user')
+        args = parser.parse_args()
+        print(args)
+        status = auth_check(args['Authentication-Token'], args['id_user'])
+        #users = User.query.all()
+        print(status)
         return {'hello': 'world'}
 
 
@@ -109,3 +113,12 @@ api.add_resource(Orders,'/order')
 api.add_resource(OrdersBD,'/order/by-date')
 api.add_resource(Product, '/product')
 
+
+def auth_check(auth_token, id_user):
+    user = user_datastore.get_user(id_user)
+    tokenstat = (utils.get_token_status(auth_token, 'confirm', 'LOGIN'))
+    print(tokenstat)
+    if auth_token == user.get_auth_token():
+        return True
+    else:
+        return False
