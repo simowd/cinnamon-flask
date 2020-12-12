@@ -43,27 +43,69 @@ class HelloWorld(Resource):
         print(current_user)
         return {'hello': 'world'}
 
-class SellinList(Resource):
+
+class OrdersBD(Resource):
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('today')
+        parser.add_argument('tomorrow')
+        args = parser.parse_args()
+        return getSellingsByDate(args['today'], args['tomorrow'])
+        
+
+class Orders(Resource):
     def get(self):
         print(getSellings())
         return getSellings()
 
-class ProductList(Resource):
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('id')
+        parser.add_argument('ord',action="append")
+        args = parser.parse_args()
+        addOrder(args['id'], args['ord'])
+        
+        return {'message': 'Request Successful!'}, 200
+
+    def delete(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('id')
+        args = parser.parse_args()
+        deleteOrder(args['id'])
+        return {'message': 'Request Successful!'}, 200
+
+class Product(Resource):
     def get(self):
         print(getProducts())
         return getProducts()
 
-class AddProduct(Resource):
     def post(self):
         parser = reqparse.RequestParser()
-        parser.add_argument('Chocolate')
-        parser.add_argument('10')
+        parser.add_argument('product')
+        parser.add_argument('price')
         args = parser.parse_args()
-        addProduct(args['Chocolate'],args['10'])
+        addProduct(args['product'],args['price'])
+        return {'message': 'Request Successful!'}, 200
 
+    def put(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('id')
+        parser.add_argument('product')
+        parser.add_argument('price')
+        args = parser.parse_args()
+        modifyProduct(args['id'], args['product'], args['price'])
+        return {'message': 'Request Successful!'}, 200
+
+    def delete(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('id')
+        args=parser.parse_args()
+        deleteProduct(args['id'])
+        return {'message': 'Request Successful!'}, 200
 
 api.add_resource(HelloWorld, '/')
 api.add_resource(Auth,'/log-in')
-api.add_resource(SellinList,'/sellings')
-api.add_resource(ProductList, '/list-product')
-api.add_resource(AddProduct, '/add-product')
+api.add_resource(Orders,'/order')
+api.add_resource(OrdersBD,'/order/by-date')
+api.add_resource(Product, '/product')
+

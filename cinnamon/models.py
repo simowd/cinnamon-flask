@@ -34,12 +34,15 @@ class Order(db.Model):
     id = db.Column('id_order', db.Integer, primary_key = True)
     date = db.Column(db.DateTime(), nullable = False)
     user_id_user = db.Column(db.Integer, db.ForeignKey('user.id_user'), nullable = False)
+    status = db.Column(db.Integer, nullable=False)
 
 class OrderProduct(db.Model):
     id = db.Column('id_order_product', db.Integer, primary_key = True)
     product_id_product = db.Column(db.Integer, db.ForeignKey('product.id_product'), nullable = False)
     order_id_order = db.Column(db.Integer, db.ForeignKey('order.id_order'), nullable = False)
     quantity = db.Column(db.Integer, nullable = False)
+    price = db.Column(db.Float, nullable=False)
+    status = db.Column(db.Integer, nullable=False)
 
 class Hproduct(db.Model):
     id = db.Column('id_product', db.Integer, primary_key = True)
