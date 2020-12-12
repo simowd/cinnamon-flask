@@ -17,13 +17,14 @@ def create_app(test_config=None):
     app.config['SECRET_KEY'] = 'huachimingosal100'
     app.config['SECURITY_PASSWORD_SALT'] = 'huachimingosal100'
     app.config['DEBUG'] = True
+    app.config['SESSION_COOKIE_SECURE'] = True
     
     
 
     #Initialize flask modules (Rest and SQLAlchemy)
     db.init_app(app)
     api.init_app(app)
-    cors.init_app(app)
+    cors.init_app(app, supports_credentials=True)
 
     security = Security(app, user_datastore)
     
