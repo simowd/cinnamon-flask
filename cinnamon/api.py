@@ -35,19 +35,19 @@ class Auth(Resource):
         return {'message': 'Log-out exitoso'}, 200
 
 
-# class HelloWorld(Resource):
-#     def get(self):
-#         if not current_user.is_authenticated:
-#             return {'message': 'Error en la autenticación'}, 403
-#         parser = reqparse.RequestParser()
-#         parser.add_argument('Authentication-Token')
-#         parser.add_argument('id_user')
-#         args = parser.parse_args()
-#         print(args)
-#         status = auth_check(args['Authentication-Token'], args['id_user'])
-#         users = User.query.all()
-#         print(status)
-#         return {'hello': 'world'}
+class HelloWorld(Resource):
+    def get(self):
+        if not current_user.is_authenticated:
+            return {'message': 'Error en la autenticación'}, 403
+        parser = reqparse.RequestParser()
+        parser.add_argument('Authentication-Token')
+        parser.add_argument('id_user')
+        args = parser.parse_args()
+        print(args)
+        #status = auth_check(args['Authentication-Token'], args['id_user'])
+        users = User.query.all()
+        #print(status)
+        return {'hello': 'world'}
 
 
 class OrdersBD(Resource):
