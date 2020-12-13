@@ -134,9 +134,9 @@ def deleteProduct(pid):
     product = Product.query.filter_by(id=pid).update(dict(status=0))
     db.session.commit()
 
-def addOrder(uid,ordi):
+def addOrder(uid, cash_o, ordi):
 
-    order = Order(user_id_user=uid,date=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),status=1)
+    order = Order(user_id_user=uid,date=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),status=1, cash=cash_o)
     db.session.add(order)
     db.session.commit()
     for i in range(len(ordi)):

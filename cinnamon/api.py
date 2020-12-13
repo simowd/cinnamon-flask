@@ -35,21 +35,25 @@ class Auth(Resource):
         return {'message': 'Log-out exitoso'}, 200
 
 
-class HelloWorld(Resource):
-    def get(self):
-        parser = reqparse.RequestParser()
-        parser.add_argument('Authentication-Token')
-        parser.add_argument('id_user')
-        args = parser.parse_args()
-        print(args)
-        status = auth_check(args['Authentication-Token'], args['id_user'])
-        #users = User.query.all()
-        print(status)
-        return {'hello': 'world'}
+# class HelloWorld(Resource):
+#     def get(self):
+#         if not current_user.is_authenticated:
+#             return {'message': 'Error en la autenticación'}, 403
+#         parser = reqparse.RequestParser()
+#         parser.add_argument('Authentication-Token')
+#         parser.add_argument('id_user')
+#         args = parser.parse_args()
+#         print(args)
+#         status = auth_check(args['Authentication-Token'], args['id_user'])
+#         users = User.query.all()
+#         print(status)
+#         return {'hello': 'world'}
 
 
 class OrdersBD(Resource):
-    def post(self):
+    def get(self):
+        if not current_user.is_authenticated:
+            return {'message': 'Error en la autenticación'}, 403
         parser = reqparse.RequestParser()
         parser.add_argument('today')
         parser.add_argument('tomorrow')
@@ -59,19 +63,26 @@ class OrdersBD(Resource):
 
 class Orders(Resource):
     def get(self):
+        if not current_user.is_authenticated:
+            return {'message': 'Error en la autenticación'}, 403
         print(getSellings())
         return getSellings()
 
     def post(self):
+        if not current_user.is_authenticated:
+            return {'message': 'Error en la autenticación'}, 403
         parser = reqparse.RequestParser()
         parser.add_argument('id')
+        parser.add_argument('cash')
         parser.add_argument('ord',action="append")
         args = parser.parse_args()
-        addOrder(args['id'], args['ord'])
+        addOrder(args['id'], args['cash'], args['ord'])
         
         return {'message': 'Request Successful!'}, 200
 
     def delete(self):
+        if not current_user.is_authenticated:
+            return {'message': 'Error en la autenticación'}, 403
         parser = reqparse.RequestParser()
         parser.add_argument('id')
         args = parser.parse_args()
@@ -80,10 +91,14 @@ class Orders(Resource):
 
 class Product(Resource):
     def get(self):
+        if not current_user.is_authenticated:
+            return {'message': 'Error en la autenticación'}, 403
         print(getProducts())
         return getProducts()
 
     def post(self):
+        if not current_user.is_authenticated:
+            return {'message': 'Error en la autenticación'}, 403
         parser = reqparse.RequestParser()
         parser.add_argument('product')
         parser.add_argument('price')
@@ -92,6 +107,8 @@ class Product(Resource):
         return {'message': 'Request Successful!'}, 200
 
     def put(self):
+        if not current_user.is_authenticated:
+            return {'message': 'Error en la autenticación'}, 403
         parser = reqparse.RequestParser()
         parser.add_argument('id')
         parser.add_argument('product')
@@ -101,6 +118,8 @@ class Product(Resource):
         return {'message': 'Request Successful!'}, 200
 
     def delete(self):
+        if not current_user.is_authenticated:
+            return {'message': 'Error en la autenticación'}, 403
         parser = reqparse.RequestParser()
         parser.add_argument('id')
         args=parser.parse_args()
