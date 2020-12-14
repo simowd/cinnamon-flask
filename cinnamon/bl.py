@@ -106,9 +106,11 @@ def getProducts():
     responseData = []
     print(product[0].product)
     for i in range(len(product)):
+        id = product[i].id
         pname=product[i].product
         price=product[i].price
         response = {
+            "id": id,
             "product": pname,
             "price": price
         }
