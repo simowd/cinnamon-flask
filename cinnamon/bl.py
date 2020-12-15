@@ -38,7 +38,7 @@ def getSellings():
             
         response = {
             "date" : date,
-            "order" : [orderss],
+            "order" : orderss,
             "total" : totals
         }
 
@@ -89,7 +89,7 @@ def getSellingsByDate(today,tomorrow):
         response = {
             "id": id,
             "date": date,
-            "order": [orderss],
+            "order": orderss,
             "total": totals
         }
 
