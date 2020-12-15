@@ -64,6 +64,7 @@ def getSellingsByDate(today,tomorrow):
         orpr = OrderProduct.query.all()
         productIds = []
         orders = []
+        id = order[l].id
         orderss = []
         totals = 0
 
@@ -86,6 +87,7 @@ def getSellingsByDate(today,tomorrow):
                 orderss.append(orders)
 
         response = {
+            "id": id,
             "date": date,
             "order": [orderss],
             "total": totals
