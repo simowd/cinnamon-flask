@@ -12,6 +12,7 @@ def getSellings():
     for l in range(len(order)):
         date=''
         date += str(order[l].date)
+        id = order[l].id
 
         orpr = OrderProduct.query.all()
         productIds=[]
@@ -37,6 +38,7 @@ def getSellings():
                 orderss.append(orders)
             
         response = {
+            "id": id,
             "date" : date,
             "order" : orderss,
             "total" : totals
